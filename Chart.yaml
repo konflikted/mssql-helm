@@ -1,6 +1,6 @@
 apiVersion: v2
-name: sql-statefull-deploy
-description: A Helm chart for Kubernetes
+name: mssql
+description: A Helm chart for Microsoft SQL Server
 
 # A chart can be either an 'application' or a 'library' chart.
 #
