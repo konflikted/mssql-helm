@@ -1,30 +1,30 @@
 # Readme.md
 
-This HELM chart is a sample "as-is" chart provided for reference to help guide with SQL Server deployment on Kubernetes cluster. 
- 
+This HELM chart is a sample "as-is" chart provided for reference to help guide with SQL Server deployment on Kubernetes cluster.
+
 ## Prerequisites:
- 
-1.	This chart is built on helm v3. It requires a kubernetes cluster to be running for you to deploy SQL container using this chart. 
+
+1.	This chart is built on helm v3. It requires a kubernetes cluster to be running for you to deploy SQL container using this chart.
 2.	Ensure you have the helm installed on the client from where you will connect to the kubernetes cluster to deploy using the helm chart.
-3.	For minimum hardware requirement for the host to run SQL Server containers please refer to the system requirements section for SQL on Linux. 
-4.	Requires the following variables to be set or changed in the values.yaml file :<br/> 
-    a.  Please ensure that you accept the EULA for SQL Server, by changing the value of ACCEPT_EULA.value=y in values.yaml file or set it during the helm install command --set ACCEPT_EULA.value=Y.<br/> 
-    b.	Please do choose the right edition of SQL Server that you would like to install you can change the value of the MSSQL_PID.value in the values file to the edition that you want to install or you can also 
-        change it during the helm install command using the option --set MSSQL_PID.value=Enterprise, If you do not pass the flag and do not change it in the yaml, then by default it is going to install developer edition.<br/> c. Also please do provide your customized value for the sa_password, if you do not provide it then by default the sa_password will the value as shown in the below table.<br/> 
- 
-Note: Once you deploy SQL server containers using the chart below, please log into SQL Server using sa account and change the password for sa, this ensures that as DBA you have the control of the sa user and password.  
- 
-  
+3.	For minimum hardware requirement for the host to run SQL Server containers please refer to the system requirements section for SQL on Linux.
+4.	Requires the following variables to be set or changed in the values.yaml file :<br/>
+    a.  Please ensure that you accept the EULA for SQL Server, by changing the value of ACCEPT_EULA.value=y in values.yaml file or set it during the helm install command --set ACCEPT_EULA.value=Y.<br/>
+    b.	Please do choose the right edition of SQL Server that you would like to install you can change the value of the MSSQL_PID.value in the values file to the edition that you want to install or you can also
+        change it during the helm install command using the option --set MSSQL_PID.value=Enterprise, If you do not pass the flag and do not change it in the yaml, then by default it is going to install developer edition.<br/> c. Also please do provide your customized value for the sa_password, if you do not provide it then by default the sa_password will the value as shown in the below table.<br/>
+
+Note: Once you deploy SQL server containers using the chart below, please log into SQL Server using sa account and change the password for sa, this ensures that as DBA you have the control of the sa user and password.
+
+
 ## Chart usage:
- 
+
 On the client machine where you have the Helm tools installed, download the chart on your machine and make the required changes to the values.yaml file as per your requirement. To see the list of settings that can be changed using the values.yaml file please refer to the table below.
 
 
- 
+
 |     Configuration parameters                 |     Description                                                                                                                                                                  |     Default_Value                      |
 |----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------- |
 |     Values.image.repository                  |     The   SQL image to be downloaded and used for container deployment.                                                                                                          |     mcr.microsoft&#46;com/mssql/server |
-|     Values.image.tag                         |     The   tag of the image to be download for the specific SQL image.                                                                                                            |     2019-latest                        |
+|     Values.image.tag                         |     The   tag of the image to be download for the specific SQL image.                                                                                                            |     2022-latest                        |
 |     Values.ACCEPT_EULA.value                 |     Set   the ACCEPT_EULA variable to any value to confirm your acceptance of   the SQL Server EULA, please refer environment   variable  for more details.                      |     Y                                  |
 |     Values.MSSQL_PID.value                   |     Set   the SQL Server edition or product key. please refer environment   variable  for more details                                                                           |     Developer                          |
 |     Values.MSSQL_AGENT_ENABLED.value         |     Enable   SQL Server Agent. For example, 'true' is enabled and 'false' is disabled. By   default, agent is disabled. please refer environment   variable for more details.    |     TRUE                               |
@@ -36,14 +36,14 @@ On the client machine where you have the Helm tools installed, download the char
 <br/>
 
 ## Deployment details:
- 
+
 > [!NOTE]
 > Here are my deployment details, please make changes to the values.yaml or other files as per your requirement.
- 
+
 <br/>
 
 In this scenario, I am deploying three SQL Server containers on a Azure Kubernetes Service (AKS) as statefulset deployments. You can follow [Setup and connect to AKS](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal) to read instructions on setting up AKS and connecting to it. Also the storage class that I am using here is "Azure-disk". Please do find details below for each of the yaml file used in the template folder of this chart.
- 
+
 | File Name | Description |
 |-|-|
 | _helpers.tpl | Template file with all the template definitions that will be used in this chart. |
@@ -54,12 +54,12 @@ In this scenario, I am deploying three SQL Server containers on a Azure Kubernet
 
 <br/>
 
-With this information, and probably after you have modified the required files you are now ready to deploy SQL Server using this chart. From the client machine where you have the helm chart installed, change the 
+With this information, and probably after you have modified the required files you are now ready to deploy SQL Server using this chart. From the client machine where you have the helm chart installed, change the
 directory of the CLI to the directory where you have the chart downloaded and to deploy SQL Server using this chart run the command:
 <br/>
 
 
-``` bash 
+``` bash
 helm install mssql . --set ACCEPT_EULA.value=Y --set MSSQL_PID.value=Developer
 ```
 <br/>
@@ -97,7 +97,7 @@ This chart also includes an extra folder called "services" this folder has two m
 
 <br/>
 
-Once you deploy the above files as well, using the commands shown below, you should have an external load balancer service created for each of the pods and another cluster IP service for each of the pod exposing the AG (alwayson) port for each pod within the cluster. 
+Once you deploy the above files as well, using the commands shown below, you should have an external load balancer service created for each of the pods and another cluster IP service for each of the pod exposing the AG (alwayson) port for each pod within the cluster.
 
 
 ```bash
