@@ -42,16 +42,23 @@ spec:
              valueFrom:
               secretKeyRef:
                name: mssql
-               key: SA_PASSWORD 
+               key: SA_PASSWORD
           volumeMounts:
            - name: mssql
              mountPath: "/var/opt/mssql"
            - name: mssql-config-volume
              mountPath: /var/opt/config
-      volumes:        
+           - name: krb5-conf
+             mountPath: /etc/krb5.conf
+             subPath: krb5.conf
+      volumes:
       - name: mssql-config-volume
         configMap:
          name: mssql
+      - name: krb5-conf
+        secret:
+          secretName: krb5-conf
+          optional: true
   volumeClaimTemplates:
     - metadata:
        name: mssql
